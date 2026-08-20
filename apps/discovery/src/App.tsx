@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, SearchBar, Badge } from 'loka';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  SearchBar,
+  Badge,
+} from 'loka';
 
 const App = () => {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
-
-
       <section className="relative h-[80vh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
-
         <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           <img
             src="https://images.unsplash.com/photo-1540039155732-d68a2bf56598?auto=format&fit=crop&q=80"
@@ -15,7 +21,6 @@ const App = () => {
             className="w-full h-full object-cover grayscale"
           />
         </div>
-
 
         <div className="relative z-10 text-center mb-12">
           <h1 className="text-[12vw] font-black text-white leading-none tracking-tighter uppercase mix-blend-difference">
@@ -26,12 +31,10 @@ const App = () => {
           </p>
         </div>
 
-
         <div className="relative z-20 mt-8">
           <SearchBar className="transform scale-110" />
         </div>
       </section>
-
 
       <section className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-10">
@@ -43,11 +46,16 @@ const App = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
           <Card hoverable className="overflow-hidden border-none shadow-md">
             <div className="aspect-[4/3] relative">
-              <img src="https://images.unsplash.com/photo-1533174000255-164434ff60b6?auto=format&fit=crop&q=80" alt="Event" className="object-cover w-full h-full" />
-              <Badge className="absolute top-4 left-4" variant="success">Selling Fast</Badge>
+              <img
+                src="https://images.unsplash.com/photo-1533174000255-164434ff60b6?auto=format&fit=crop&q=80"
+                alt="Event"
+                className="object-cover w-full h-full"
+              />
+              <Badge className="absolute top-4 left-4" variant="success">
+                Selling Fast
+              </Badge>
             </div>
             <CardHeader>
               <CardTitle>Synthwave Sunset</CardTitle>
@@ -61,10 +69,13 @@ const App = () => {
             </CardContent>
           </Card>
 
-
           <Card hoverable className="overflow-hidden border-none shadow-md">
             <div className="aspect-[4/3] relative">
-              <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80" alt="Event" className="object-cover w-full h-full" />
+              <img
+                src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80"
+                alt="Event"
+                className="object-cover w-full h-full"
+              />
               <Badge className="absolute top-4 left-4">Music Festival</Badge>
             </div>
             <CardHeader>
@@ -79,11 +90,16 @@ const App = () => {
             </CardContent>
           </Card>
 
-
           <Card hoverable className="overflow-hidden border-none shadow-md">
             <div className="aspect-[4/3] relative">
-              <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80" alt="Event" className="object-cover w-full h-full" />
-              <Badge className="absolute top-4 left-4" variant="destructive">Sold Out</Badge>
+              <img
+                src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80"
+                alt="Event"
+                className="object-cover w-full h-full"
+              />
+              <Badge className="absolute top-4 left-4" variant="destructive">
+                Sold Out
+              </Badge>
             </div>
             <CardHeader>
               <CardTitle>Craft Tech 2025</CardTitle>
@@ -92,7 +108,9 @@ const App = () => {
             <CardContent>
               <div className="flex justify-between items-center mt-2">
                 <span className="font-semibold text-lg text-gray-400 line-through">$149</span>
-                <Button size="sm" variant="secondary" disabled>Join Waitlist</Button>
+                <Button size="sm" variant="secondary" disabled>
+                  Join Waitlist
+                </Button>
               </div>
             </CardContent>
           </Card>
