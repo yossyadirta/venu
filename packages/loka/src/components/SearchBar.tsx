@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, MapPin, Calendar } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Button } from './Button';
 
 export function SearchBar({ className }: { className?: string }) {
+  const [location, setLocation] = useState('');
+  const [date, setDate] = useState('');
+
+  const hasInput = location.trim().length > 0 || date.length > 0;
+
   return (
     <div
       className={cn(
@@ -18,6 +23,8 @@ export function SearchBar({ className }: { className?: string }) {
           <input
             type="text"
             placeholder="Where to?"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             className="bg-transparent border-none focus:outline-none placeholder:text-gray-400 w-32 group-hover:bg-gray-50"
           />
         </div>
@@ -27,13 +34,24 @@ export function SearchBar({ className }: { className?: string }) {
         <span className="text-xs font-bold text-gray-900">Date</span>
         <div className="flex items-center text-sm text-gray-500 mt-0.5">
           <Calendar className="w-4 h-4 mr-2 opacity-50" />
-          <span className="text-gray-400">When?</span>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="bg-transparent border-none focus:outline-none text-gray-500 cursor-pointer w-32 group-hover:bg-gray-50"
+          />
         </div>
       </div>
 
       <div className="pl-2">
-        <Button size="icon" className="rounded-full h-12 w-12 bg-primary hover:bg-primary-light">
-          <Search className="h-5 w-5 text-white" />
+        <Button 
+          size="icon" 
+          className={cn(
+            "rounded-full h-12 w-12 transition-colors duration-300",
+            hasInput ? "bg-primary hover:bg-primary-light" : "bg-gray-200 hover:bg-gray-300"
+          )}
+        >
+          <Search className={cn("h-5 w-5", hasInput ? "text-white" : "text-gray-500")} />
         </Button>
       </div>
     </div>
