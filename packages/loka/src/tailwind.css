@@ -1,3 +1,117 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+
+  .flex-col-mobile {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  nav {
+    padding: 16px !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .hero-content-wrapper {
+    padding: 0 !important;
+  }
+
+  [data-hero-content] {
+    left: 20px !important;
+    right: 20px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .hero-content-wrapper h1 {
+    font-size: clamp(36px, 10vw, 50px) !important;
+    line-height: 1.1 !important;
+    margin-top: 60px !important;
+  }
+
+  .hero-content-wrapper p {
+    font-size: 15px !important;
+    max-width: 100% !important;
+  }
+
+  .hero-thumbnails {
+    bottom: 24px !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+    width: max-content !important;
+    gap: 8px !important;
+    justify-content: center !important;
+  }
+
+  .hero-thumbnails>div {
+    width: 32px !important;
+    height: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hero-thumbnail-details {
+    display: none !important;
+  }
+
+  .flex-col-mobile.w-full>button {
+    width: 100% !important;
+  }
+
+  .stats-container {
+    align-items: center !important;
+  }
+
+  [data-stat] {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  [data-stat]:last-child {
+    border-bottom: none !important;
+  }
+
+  section[ref="statsRef"] {
+    flex-direction: column !important;
+    padding: 40px 24px !important;
+  }
+
+  .flex-col-mobile.w-full>button,
+  .flex-col-mobile.w-full>input {
+    width: 100% !important;
+  }
+
+  .marquee-mobile {
+    animation: marqueeMobile 15s linear infinite !important;
+  }
+}
+
+@keyframes marqueeMobile {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-50% - 10px));
+  }
+}
