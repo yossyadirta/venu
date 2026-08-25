@@ -98,10 +98,8 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
     slides.forEach((slide, i) => {
       const img = slide.querySelector('img') as HTMLElement;
       if (i === index) {
-        // Z-index management so the new slide is on top during transition
         (slide as HTMLElement).style.zIndex = '2';
 
-        // Clip-path wipe transition from left
         gsap.fromTo(slide,
           { clipPath: 'inset(0% 100% 0% 0%)' },
           { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'power3.inOut' }
@@ -112,8 +110,7 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
         }
       } else {
         (slide as HTMLElement).style.zIndex = '1';
-        // Delay hiding the old slide until new one covers it
-        gsap.to(slide, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'none' }); // Keep old slide visible as background
+        gsap.to(slide, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'none' }); 
         if (img) gsap.killTweensOf(img);
       }
     });
@@ -128,7 +125,6 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
       if (i === index) {
         gsap.set(content, { opacity: 1, pointerEvents: 'auto' });
 
-        // Word stagger entrance
         gsap.fromTo(words,
           { yPercent: 100, opacity: 0 },
           { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'power3.out', delay: 0.3 }
@@ -192,7 +188,6 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
     return () => clearInterval(interval);
   }, [events.length, goToSlide]);
 
-  // Mouse Parallax Logic
   useEffect(() => {
     if (!containerRef.current) return;
     const hero = containerRef.current;
@@ -202,8 +197,8 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = hero.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * -30; // 30px max movement
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15; // 15px max movement
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * -30; 
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15; 
       xToRef.current?.(x);
       yToRef.current?.(y);
     };
