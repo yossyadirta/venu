@@ -20,16 +20,20 @@ const HeroModern = ({ event }: { event: any }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to(imgRef.current, {
-        y: '20%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+      gsap.fromTo(
+        imgRef.current,
+        { yPercent: -10 },
+        {
+          yPercent: 10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        }
+      );
     });
     return () => ctx.revert();
   }, []);
@@ -41,24 +45,24 @@ const HeroModern = ({ event }: { event: any }) => {
           ref={imgRef}
           src={event.hero_image_url}
           alt={event.title}
-          className="w-full h-[140%] object-cover absolute -top-[20%]"
+          className="w-full h-[120%] object-cover object-center absolute top-[-10%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 from-0% to-transparent to-60%" />
 
-        <div className="absolute bottom-10 left-10 right-10 flex flex-col gap-6">
-          <h1 className="text-[clamp(40px,6vw,96px)] text-white font-extrabold tracking-[-0.04em] leading-none m-0">
+        <div className="absolute bottom-10 left-6 lg:left-10 right-6 lg:right-10 flex flex-col gap-6">
+          <h1 className="text-[clamp(32px,6vw,96px)] text-white font-extrabold tracking-[-0.04em] leading-none m-0">
             {event.title}
           </h1>
 
-          <div className="flex gap-4 flex-wrap">
-            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-[20px] py-2.5 px-5 rounded-full border border-white/20">
-              <span className="text-[13px] text-white font-semibold">{formatDate(event.date)}</span>
+          <div className="flex gap-2 lg:gap-4 flex-wrap mt-2 lg:mt-0">
+            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-[20px] py-1.5 px-3 lg:py-2.5 lg:px-5 rounded-full border border-white/20">
+              <span className="text-[11px] lg:text-[13px] text-white font-semibold">{formatDate(event.date)}</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-[20px] py-2.5 px-5 rounded-full border border-white/20">
-              <span className="text-[13px] text-white font-semibold">{event.venue_name}</span>
+            <div className="flex items-center gap-2 bg-white/15 backdrop-blur-[20px] py-1.5 px-3 lg:py-2.5 lg:px-5 rounded-full border border-white/20">
+              <span className="text-[11px] lg:text-[13px] text-white font-semibold">{event.venue_name}</span>
             </div>
-            <div className="flex items-center gap-2 bg-white py-2.5 px-5 rounded-full">
-              <span className="text-[13px] text-[#0a0a0a] font-extrabold uppercase tracking-[0.1em]">
+            <div className="flex items-center gap-2 bg-white py-1.5 px-3 lg:py-2.5 lg:px-5 rounded-full">
+              <span className="text-[11px] lg:text-[13px] text-[#0a0a0a] font-extrabold uppercase tracking-[0.1em]">
                 {event.status.replace(/_/g, ' ')}
               </span>
             </div>
@@ -118,12 +122,11 @@ const LineupBento = () => {
         The Lineup
       </h2>
 
-      <div className="grid grid-cols-2 gap-6 px-[5%]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-[5%]">
         {acts.map((act, i) => (
           <div
             key={i}
-            className={styles.bentoAct}
-            style={{ gridColumn: `span ${act.span}` }}
+            className={cn(styles.bentoAct, act.span === 2 ? 'col-span-1 md:col-span-2' : 'col-span-1 md:col-span-1')}
             onMouseEnter={(e) => {
               gsap.to(e.currentTarget.querySelector('img'), {
                 scale: 1.05,
@@ -198,7 +201,7 @@ const GBKVenueModern = ({ venue }: { venue: string }) => {
         Location
       </h2>
 
-      <div className="flex gap-6 items-stretch">
+      <div className="flex flex-col md:flex-row gap-6 items-stretch">
         <div className={styles.venueImgContainer}>
           <img
             src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=1200"
@@ -213,28 +216,28 @@ const GBKVenueModern = ({ venue }: { venue: string }) => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col gap-4">
-          <div className="flex-1 bg-white rounded-[24px] p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
-            <span className="text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-2">
+        <div className="w-full md:flex-1 grid grid-cols-1 sm:grid-cols-3 md:flex md:flex-col gap-4">
+          <div className="bg-white rounded-[24px] p-4 md:p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
+            <span className="text-[10px] md:text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-1 md:mb-2">
               Capacity
             </span>
-            <span className="text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
+            <span className="text-xl md:text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
               77,193
             </span>
           </div>
-          <div className="flex-1 bg-white rounded-[24px] p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
-            <span className="text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-2">
+          <div className="bg-white rounded-[24px] p-4 md:p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
+            <span className="text-[10px] md:text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-1 md:mb-2">
               Access Gates
             </span>
-            <span className="text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
+            <span className="text-xl md:text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
               1 - 12
             </span>
           </div>
-          <div className="flex-1 bg-white rounded-[24px] p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
-            <span className="text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-2">
+          <div className="bg-white rounded-[24px] p-4 md:p-6 flex flex-col justify-center shadow-[0_2px_8px_rgba(0,0,0,0.02)] border border-[#f5f5f5]">
+            <span className="text-[10px] md:text-xs text-[#888] uppercase tracking-[0.1em] font-bold mb-1 md:mb-2">
               Nearest MRT
             </span>
-            <span className="text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
+            <span className="text-xl md:text-[28px] text-[#0a0a0a] font-extrabold tracking-[-0.02em]">
               Istora
             </span>
           </div>
@@ -293,7 +296,7 @@ const SmoothFAQ = () => {
 
 const TicketPanel = ({ event, onGetTickets }: { event: any; onGetTickets: () => void }) => {
   return (
-    <div className="w-[35%] shrink-0 p-[160px_5%_100px_0]">
+    <div className="hidden lg:block w-[35%] shrink-0 p-[160px_5%_100px_0] mb-20 lg:mb-0">
       <div className={styles.ticketPanelSticky}>
         <p className="text-[#888] text-xs font-bold uppercase tracking-[0.1em] mb-3">
           Tickets Starting From
@@ -345,20 +348,20 @@ export const EventDetail = () => {
   if (isLoading) {
     return (
       <div className="bg-[#fafafa] min-h-screen pb-[100px]">
-        <div className="h-[500px] w-full relative">
+        <div className="h-[400px] lg:h-[500px] w-full relative">
           <Skeleton className="w-full h-full" />
         </div>
-        <div className="max-w-[1280px] mx-auto px-6 -mt-20 relative z-10">
-          <div className="grid grid-cols-[1fr_400px] gap-10 items-start">
-            <div className="bg-white rounded-[32px] p-12 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-              <Skeleton className="h-12 w-[80%] mb-4" />
-              <Skeleton className="h-6 w-[40%] mb-8" />
-              <Skeleton className="h-4 w-full mb-3" />
-              <Skeleton className="h-4 w-[90%] mb-3" />
-              <Skeleton className="h-4 w-[95%] mb-8" />
+        <div className="max-w-[1280px] mx-auto px-4 lg:px-6 -mt-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 lg:gap-10 items-start">
+            <div className="bg-white rounded-[24px] lg:rounded-[32px] p-6 lg:p-12 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+              <Skeleton className="h-8 lg:h-12 w-[80%] mb-4" />
+              <Skeleton className="h-5 lg:h-6 w-[40%] mb-8" />
+              <Skeleton className="h-3 lg:h-4 w-full mb-3" />
+              <Skeleton className="h-3 lg:h-4 w-[90%] mb-3" />
+              <Skeleton className="h-3 lg:h-4 w-[95%] mb-8" />
             </div>
-            <div className="bg-white rounded-[32px] p-8 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-              <Skeleton className="h-8 w-[60%] mb-6" />
+            <div className="bg-white rounded-[24px] lg:rounded-[32px] p-6 lg:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+              <Skeleton className="h-6 lg:h-8 w-[60%] mb-6" />
               <Skeleton className="h-12 w-full rounded-full" />
             </div>
           </div>
@@ -375,7 +378,7 @@ export const EventDetail = () => {
     );
 
   return (
-    <div className="flex w-full bg-[#fafafa] min-h-screen items-stretch font-['Inter',sans-serif] relative">
+    <div className="flex flex-col lg:flex-row w-full bg-[#fafafa] min-h-screen items-stretch font-['Inter',sans-serif] relative">
       <button onClick={() => navigate(-1)} className={styles.backBtn}>
         <svg
           width="16"
@@ -392,8 +395,8 @@ export const EventDetail = () => {
         Back to Events
       </button>
 
-      <div className="w-[65%] relative">
-        <div className="pt-[160px]">
+      <div className="w-full lg:w-[65%] relative">
+        <div className="pt-[140px] lg:pt-[160px] px-0 lg:px-0">
           <HeroModern event={event} />
           <SynopsisReveal text={event.description} />
           <LineupBento />
@@ -404,6 +407,32 @@ export const EventDetail = () => {
       </div>
 
       <TicketPanel event={event} onGetTickets={() => navigate(`/tickets/${event.slug}`)} />
+
+      {/* Mobile Sticky Bottom Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-200 p-4 pb-6 px-6 z-[99] flex justify-between items-end shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+        <div className="flex flex-col">
+          <p className="text-[10px] text-[#555] font-semibold truncate max-w-[160px] sm:max-w-[200px] mb-1.5">
+            {formatDate(event.date)} • {event.venue_name}
+          </p>
+          <p className="text-[10px] text-[#888] font-bold uppercase tracking-[0.1em] m-0 leading-none">
+            Tickets From
+          </p>
+          <div className="text-xl font-extrabold text-[#007CFF] tracking-[-0.02em] leading-none mt-1">
+            {formatPrice(event.min_price)}
+          </div>
+        </div>
+        <button
+          className={cn(
+            'py-3.5 px-8 rounded-full text-[14px] font-extrabold border-none tracking-[0.05em] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+            event.status === 'sold_out'
+              ? 'bg-[#e5e5e5] text-[#888] cursor-not-allowed shadow-none'
+              : 'bg-[#007CFF] text-white cursor-pointer shadow-[0_8px_24px_rgba(0,124,255,0.25)]'
+          )}
+          onClick={event.status !== 'sold_out' ? () => navigate(`/tickets/${event.slug}`) : undefined}
+        >
+          {event.status === 'sold_out' ? 'SOLD OUT' : 'GET TICKETS'}
+        </button>
+      </div>
     </div>
   );
 };

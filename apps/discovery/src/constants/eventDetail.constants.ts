@@ -25,7 +25,7 @@ export const styles = {
   ticketPanelBtnAvailable:
     'bg-[#007CFF] text-white cursor-pointer shadow-[0_8px_24px_rgba(0,124,255,0.25)] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,124,255,0.35)]',
   backBtn: cn(
-    'absolute top-[100px] left-[5%] z-[100] flex items-center gap-2 bg-white py-2.5 px-5 rounded-full',
+    'absolute top-[80px] lg:top-[100px] left-[5%] z-[999] flex items-center gap-2 bg-white py-2.5 px-5 rounded-full',
     'border border-[#eaeaea] shadow-[0_4px_12px_rgba(0,0,0,0.04)] cursor-pointer font-semibold',
     'text-[13px] text-[#0a0a0a] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]'
   ),
@@ -64,7 +64,7 @@ export const acts = [
   {
     name: 'Global Talent',
     role: 'Co-Host',
-    img: 'https://images.unsplash.com/photo-1493225457124-a1a2b163d76e?w=600',
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000',
     span: 1,
   },
 ];
