@@ -1,9 +1,21 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from 'api-client';
+import 'loka/src/tailwind.css';
 
 const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
-}
+if (!container) throw new Error('Failed to find the root element');
+const root = createRoot(container);
+
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
+  </React.StrictMode>
+);

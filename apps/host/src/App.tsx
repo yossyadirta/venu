@@ -1,11 +1,20 @@
 import React, { Suspense } from 'react';
+import { GlobalNavbar } from './GlobalNavbar';
+import { GlobalFooter } from './GlobalFooter';
+
+import { Routes, Route } from 'react-router-dom';
 
 // @ts-ignore
 const DiscoveryApp = React.lazy(() => import('discovery/App'));
+// @ts-ignore
+const TicketingApp = React.lazy(() => import('ticketing/App'));
+// @ts-ignore
+const CheckoutApp = React.lazy(() => import('checkout/App'));
 
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
+      <GlobalNavbar />
       <main className="flex-grow">
         <Suspense
           fallback={
@@ -14,9 +23,14 @@ const App = () => {
             </div>
           }
         >
-          <DiscoveryApp />
+          <Routes>
+            <Route path="/*" element={<DiscoveryApp />} />
+            <Route path="/tickets/*" element={<TicketingApp />} />
+            <Route path="/checkout/*" element={<CheckoutApp />} />
+          </Routes>
         </Suspense>
       </main>
+      <GlobalFooter />
     </div>
   );
 };
