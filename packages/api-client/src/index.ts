@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { QueryClient } from '@tanstack/react-query';
 
+declare var process: any;
+
 export const apiClient = axios.create({
   baseURL: process.env.API_URL || 'http://localhost:8000',
   headers: {
@@ -16,3 +18,6 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
+export * from './types';
+export * from './client';
