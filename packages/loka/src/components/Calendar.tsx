@@ -4,7 +4,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 import 'react-day-picker/style.css';
 
-export function Calendar({ className, classNames, showOutsideDays = true, ...props }: DayPickerProps) {
+export function Calendar({
+  className,
+  classNames,
+  showOutsideDays = true,
+  ...props
+}: DayPickerProps) {
   return (
     <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-gray-100 p-4">
       <style>{`
@@ -84,10 +89,10 @@ export function Calendar({ className, classNames, showOutsideDays = true, ...pro
       `}</style>
       <DayPicker
         showOutsideDays={showOutsideDays}
-        className={cn("p-1", className)}
+        className={cn('p-1', className)}
         components={{
           Chevron: ({ orientation }) => {
-            const Icon = orientation === "left" ? ChevronLeft : ChevronRight;
+            const Icon = orientation === 'left' ? ChevronLeft : ChevronRight;
             return <Icon className="h-4 w-4" strokeWidth={3} />;
           },
         }}
