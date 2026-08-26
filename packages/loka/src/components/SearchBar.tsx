@@ -44,14 +44,14 @@ export function SearchBar({ className }: { className?: string }) {
       </div>
 
       <div className="pl-2">
-        <Button 
-          size="icon" 
+        <Button
+          size="icon"
           className={cn(
-            "rounded-full h-12 w-12 transition-colors duration-300",
-            hasInput ? "bg-primary hover:bg-primary-light" : "bg-gray-200 hover:bg-gray-300"
+            'rounded-full h-12 w-12 transition-colors duration-300',
+            hasInput ? 'bg-primary hover:bg-primary-light' : 'bg-gray-200 hover:bg-gray-300'
           )}
         >
-          <Search className={cn("h-5 w-5", hasInput ? "text-white" : "text-gray-500")} />
+          <Search className={cn('h-5 w-5', hasInput ? 'text-white' : 'text-gray-500')} />
         </Button>
       </div>
     </div>
