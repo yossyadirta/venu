@@ -236,7 +236,7 @@ export const LandingPage = () => {
                 Events selling fast right now. Secure your spot before it's too late.
               </p>
             </div>
-            <button className={styles.btnOutline}>View All →</button>
+            <button className={styles.btnOutline} onClick={() => navigate('/explore')}>View All →</button>
           </div>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
             {isLoading
@@ -296,7 +296,8 @@ export const LandingPage = () => {
                 <div
                   key={cat.name}
                   data-cat-card
-                  className={styles.categoryCard}
+                  className={`${styles.categoryCard} cursor-pointer`}
+                  onClick={() => navigate(`/explore?category=${cat.name}`)}
                   style={{
                     background: cat.bg,
                     borderColor: `${cat.color}15`,
@@ -336,7 +337,7 @@ export const LandingPage = () => {
                 Experience world-class events in iconic locations.
               </p>
             </div>
-            <button className={styles.btnOutline}>All Venues →</button>
+            <button className={styles.btnOutline} onClick={() => navigate('/explore')}>All Venues →</button>
           </div>
           <div className="grid grid-cols-12 gap-5">
             {venues.map((venue, i) => {
@@ -428,7 +429,7 @@ export const LandingPage = () => {
                 Fresh events just added. Be the first to book.
               </p>
             </div>
-            <button className="py-2.5 px-6 rounded-full bg-transparent text-[#007CFF] font-semibold text-[13px] border-[1.5px] border-[#007CFF] cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-[0.02em] hover:bg-[#007CFF] hover:text-white hover:scale-105 mt-4 sm:mt-0">
+            <button onClick={() => navigate('/explore')} className="py-2.5 px-6 rounded-full bg-transparent text-[#007CFF] font-semibold text-[13px] border-[1.5px] border-[#007CFF] cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-[0.02em] hover:bg-[#007CFF] hover:text-white hover:scale-105 mt-4 sm:mt-0">
               View All →
             </button>
           </div>
@@ -595,7 +596,6 @@ export const LandingPage = () => {
       </section>
 
       <style>{`
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body, html { scrollbar-width: none; -ms-overflow-style: none; }
