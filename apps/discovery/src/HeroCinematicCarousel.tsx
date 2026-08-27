@@ -207,21 +207,22 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
     return () => hero.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  if (!events.length) return null;
-
-  const displayEvents = events.map(e => {
-    if (e.slug === 'standup-comedy-night') {
-      return {
-        ...e,
-        title: 'Tomorrowland 2026',
-        description: "Experience the magic of the world's biggest electronic dance music festival. Join thousands of People of Tomorrow for a weekend of unity and love.",
-        hero_image_url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=3000&auto=format&fit=crop',
-        venue_name: 'Boom, Belgium',
-        date: '2026-07-17T12:00:00Z'
-      };
-    }
-    return e;
-  });
+  if (!events.length) {
+    return (
+      <section style={{ height: '100vh', width: '100%', background: '#0a0a0a', display: 'flex', alignItems: 'center', padding: '0 60px' }}>
+        <div style={{ maxWidth: 780, width: '100%' }}>
+          <div className="w-[80%] lg:w-[600px] h-[60px] lg:h-[90px] bg-white/5 rounded-2xl mb-4 animate-pulse" />
+          <div className="w-[60%] lg:w-[400px] h-[60px] lg:h-[90px] bg-white/5 rounded-2xl mb-8 animate-pulse" />
+          <div className="w-[40%] lg:w-[300px] h-[20px] bg-white/5 rounded-full mb-3 animate-pulse" />
+          <div className="w-[50%] lg:w-[380px] h-[20px] bg-white/5 rounded-full mb-10 animate-pulse" />
+          <div className="flex gap-4">
+            <div className="w-[200px] h-[56px] bg-white/5 rounded-full animate-pulse" />
+            <div className="w-[160px] h-[56px] bg-white/5 rounded-full animate-pulse" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -239,7 +240,7 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
       } as React.CSSProperties}
     >
       <div ref={slidesRef} style={{ position: 'absolute', inset: '-30px' }}>
-        {displayEvents.map((event, i) => (
+        {events.map((event, i) => (
           <div
             key={event.id}
             data-hero-slide
@@ -273,7 +274,7 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
         position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
         padding: '0 60px', zIndex: 10,
       }}>
-        {displayEvents.map((event, i) => (
+        {events.map((event, i) => (
           <div key={event.id} data-hero-content style={{
             position: 'absolute', maxWidth: 780,
           }}>
@@ -333,7 +334,7 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
         position: 'absolute', bottom: 48, right: 60,
         display: 'flex', gap: 16, zIndex: 20,
       }}>
-        {displayEvents.map((event, i) => (
+        {events.map((event, i) => (
           <div
             key={event.id}
             style={{

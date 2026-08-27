@@ -49,7 +49,18 @@ const HeroModern = ({ event }: { event: any }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 from-0% to-transparent to-60%" />
 
-        <div className="absolute bottom-10 left-6 lg:left-10 right-6 lg:right-10 flex flex-col gap-6">
+        <div className="absolute top-6 right-6 lg:top-10 lg:right-10 z-20">
+          <div className="flex items-center gap-2 bg-white/95 backdrop-blur-md py-2 px-4 rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.15)]">
+            {event.status === 'selling_fast' && <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.6)]" />}
+            {event.status === 'available' && <span className="w-2 h-2 rounded-full bg-[#10B981] shadow-[0_0_8px_rgba(16,185,129,0.6)]" />}
+            {event.status === 'sold_out' && <span className="w-2 h-2 rounded-full bg-[#EF4444] shadow-[0_0_8px_rgba(239,68,68,0.6)]" />}
+            <span className="text-[10px] text-[#0a0a0a] font-black uppercase tracking-[0.2em] leading-none pt-[1px]">
+              {event.status.replace(/_/g, ' ')}
+            </span>
+          </div>
+        </div>
+
+        <div className="absolute bottom-10 left-6 lg:left-10 right-6 lg:right-10 flex flex-col gap-6 z-10">
           <h1 className="text-[clamp(32px,6vw,96px)] text-white font-extrabold tracking-[-0.04em] leading-none m-0">
             {event.title}
           </h1>
@@ -60,11 +71,6 @@ const HeroModern = ({ event }: { event: any }) => {
             </div>
             <div className="flex items-center gap-2 bg-white/15 backdrop-blur-[20px] py-1.5 px-3 lg:py-2.5 lg:px-5 rounded-full border border-white/20">
               <span className="text-[11px] lg:text-[13px] text-white font-semibold">{event.venue_name}</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white py-1.5 px-3 lg:py-2.5 lg:px-5 rounded-full">
-              <span className="text-[11px] lg:text-[13px] text-[#0a0a0a] font-extrabold uppercase tracking-[0.1em]">
-                {event.status.replace(/_/g, ' ')}
-              </span>
             </div>
           </div>
         </div>
@@ -146,7 +152,7 @@ const LineupBento = () => {
           >
             <img
               src={act.img}
-              className="absolute inset-0 w-full h-full object-cover grayscale transition-none"
+              className="absolute top-0 left-0 w-full h-full object-cover object-center grayscale pointer-events-none"
               alt={act.name}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 from-0% to-transparent to-60%" />
@@ -205,7 +211,7 @@ const GBKVenueModern = ({ venue }: { venue: string }) => {
         <div className={styles.venueImgContainer}>
           <img
             src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=1200"
-            className="w-full h-full object-cover"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center pointer-events-none"
             alt="Gelora Bung Karno"
           />
           <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-[10px] py-4 px-6 rounded-[20px] shadow-[0_4px_12px_rgba(0,0,0,0.1)]">

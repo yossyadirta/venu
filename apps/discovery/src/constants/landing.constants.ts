@@ -164,7 +164,7 @@ export const reviews = [
     avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop',
     rating: 5,
     text: 'VIP meet & greet ticket delivery was instant. The whole experience felt premium from start to finish.',
-    event: 'Stand-Up Comedy Night',
+    event: 'Tomorrowland 2026',
   },
 ];
 
