@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { Event } from 'api-client';
+import { cn } from 'loka';
 
 interface HeroCinematicCarouselProps {
   events: Event[];
@@ -209,7 +210,7 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
 
   if (!events.length) {
     return (
-      <section style={{ height: '100vh', width: '100%', background: '#0a0a0a', display: 'flex', alignItems: 'center', padding: '0 60px' }}>
+      <section className="h-screen w-full bg-[#0a0a0a] flex items-end px-[60px] pb-[100px] pt-0">
         <div style={{ maxWidth: 780, width: '100%' }}>
           <div className="w-[80%] lg:w-[600px] h-[60px] lg:h-[90px] bg-white/5 rounded-2xl mb-4 animate-pulse" />
           <div className="w-[60%] lg:w-[400px] h-[60px] lg:h-[90px] bg-white/5 rounded-2xl mb-8 animate-pulse" />
@@ -229,99 +230,64 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
       ref={containerRef}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      className="relative h-screen w-full overflow-hidden bg-[#0a0a0a]"
       style={{
-        position: 'relative',
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        background: '#0a0a0a',
         '--mx': '0px',
         '--my': '0px'
       } as React.CSSProperties}
     >
-      <div ref={slidesRef} style={{ position: 'absolute', inset: '-30px' }}>
+      <div ref={slidesRef} className="absolute -inset-[30px]">
         {events.map((event, i) => (
           <div
             key={event.id}
             data-hero-slide
-            style={{
-              position: 'absolute',
-              inset: 0,
-            }}
+            className="absolute inset-0"
           >
             <img
               src={event.hero_image_url}
               alt={event.title}
+              className="w-[calc(100%+60px)] h-[calc(100%+60px)] object-cover object-center will-change-transform"
               style={{
-                width: 'calc(100% + 60px)',
-                height: 'calc(100% + 60px)',
-                objectFit: 'cover',
-                objectPosition: 'center',
                 transform: 'translate(var(--mx), var(--my)) scale(1.05)',
-                willChange: 'transform',
               }}
             />
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.7) 100%)'
-            }} />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.8)_0%,rgba(0,0,0,0.15)_50%,rgba(0,0,0,0.7)_100%)]" />
           </div>
         ))}
       </div>
 
-      <div ref={contentsRef} className="hero-content-wrapper" style={{
-        position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
-        padding: '0 60px', zIndex: 10,
-      }}>
+      <div ref={contentsRef} className="hero-content-wrapper absolute inset-0 flex items-center px-[60px] z-10">
         {events.map((event, i) => (
-          <div key={event.id} data-hero-content style={{
-            position: 'absolute', maxWidth: 780,
-          }}>
-            <h1 style={{
-              fontSize: 'clamp(46px, 7vw, 92px)', fontWeight: 900, color: 'white',
-              lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 24,
-              textShadow: '0 4px 40px rgba(0,0,0,0.4)',
-            }}>
+          <div key={event.id} data-hero-content className="absolute max-w-[780px]">
+            <h1 className="text-[clamp(46px,7vw,92px)] font-black text-white leading-[1.05] tracking-[-0.03em] mb-6 drop-shadow-[0_4px_40px_rgba(0,0,0,0.4)]">
               <SplitWords text={event.title} className={`slide-${i}-word`} />
             </h1>
-            <p style={{
-              fontSize: 18, color: 'rgba(255,255,255,0.7)',
-              lineHeight: 1.6, marginBottom: 12, maxWidth: 520,
-              textShadow: '0 2px 10px rgba(0,0,0,0.2)'
-            }}>
+            <p className="text-lg text-white/70 leading-[1.6] mb-3 max-w-[520px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
               {event.description.length > 130 ? event.description.slice(0, 130) + '...' : event.description}
             </p>
-            <div data-meta style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 40, marginTop: 24 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div data-meta className="flex items-center gap-6 mb-10 mt-6">
+              <div className="flex items-center gap-2.5">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, fontWeight: 500 }}>{formatDate(event.date)}</span>
+                <span className="text-white/70 text-base font-medium">{formatDate(event.date)}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className="flex items-center gap-2.5">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, fontWeight: 500 }}>{event.venue_name}</span>
+                <span className="text-white/70 text-base font-medium">{event.venue_name}</span>
               </div>
             </div>
 
-            <div data-cta className="flex-col-mobile w-full" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            <div data-cta className="flex-col-mobile w-full flex gap-4 items-center">
               <MagneticButton
                 onClick={() => onEventClick(event.slug)}
-                style={{
-                  padding: '18px 40px', borderRadius: 999, background: '#007CFF', color: 'white',
-                  fontWeight: 700, fontSize: 16, border: 'none', cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(0,124,255,0.4)',
-                }}
+                className="px-10 py-[18px] rounded-full bg-[#007CFF] text-white font-bold text-base cursor-pointer border-none shadow-[0_8px_32px_rgba(0,124,255,0.4)]"
+                style={{}}
               >
                 Get Tickets — {formatPrice(event.min_price)}
               </MagneticButton>
               <MagneticButton
                 onClick={() => onEventClick(event.slug)}
-                style={{
-                  padding: '18px 34px', borderRadius: 999,
-                  background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)',
-                  color: 'white', fontWeight: 600, fontSize: 16, border: '1px solid rgba(255,255,255,0.15)',
-                  cursor: 'pointer',
-                }}
+                className="px-[34px] py-[18px] rounded-full bg-white/5 backdrop-blur-md text-white font-semibold text-base cursor-pointer border border-white/15"
+                style={{}}
               >
                 Learn More
               </MagneticButton>
@@ -330,35 +296,21 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
         ))}
       </div>
 
-      <div ref={progressBarsRef} className="hero-thumbnails" style={{
-        position: 'absolute', bottom: 48, right: 60,
-        display: 'flex', gap: 16, zIndex: 20,
-      }}>
+      <div ref={progressBarsRef} className="hero-thumbnails absolute bottom-12 right-[60px] flex gap-4 z-20">
         {events.map((event, i) => (
           <div
             key={event.id}
-            style={{
-              width: 140,
-              cursor: 'pointer',
-              opacity: i === activeIndex ? 1 : 0.4,
-              transition: 'opacity 0.4s ease'
-            }}
+            className={cn("w-[140px] cursor-pointer transition-opacity duration-400 ease", i === activeIndex ? "opacity-100" : "opacity-40")}
             onClick={() => goToSlide(i)}
           >
-            <div style={{ position: 'relative', width: '100%', height: 4, background: 'rgba(255,255,255,0.2)', marginBottom: 12, borderRadius: 2, overflow: 'hidden' }}>
-              <div data-progress-fill style={{
-                position: 'absolute', top: 0, left: 0, bottom: 0, width: '100%',
-                background: '#007CFF', transformOrigin: 'left', transform: 'scaleX(0)',
-              }} />
+            <div className="relative w-full h-1 bg-white/20 mb-3 rounded-sm overflow-hidden">
+              <div data-progress-fill className="absolute inset-y-0 left-0 w-full bg-[#007CFF] origin-left" style={{ transform: 'scaleX(0)' }} />
             </div>
-            <div className="hero-thumbnail-details" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <div className="hero-thumbnail-img" style={{ width: 44, height: 44, borderRadius: 8, overflow: 'hidden', flexShrink: 0, border: '1px solid rgba(255,255,255,0.1)' }}>
-                <img src={event.hero_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="hero-thumbnail-details flex gap-3 items-center">
+              <div className="hero-thumbnail-img w-11 h-11 rounded-lg overflow-hidden shrink-0 border border-white/10">
+                <img src={event.hero_image_url} alt="" className="w-full h-full object-cover" />
               </div>
-              <span style={{
-                fontSize: 12, fontWeight: 600, color: 'white',
-                lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
-              }}>
+              <span className="text-xs font-semibold text-white leading-[1.3] line-clamp-2">
                 {event.title}
               </span>
             </div>

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge, Skeleton, cn } from 'loka';
-import { Event } from 'api-client';
+import { Typography, Button, Card, CardContent, Separator, cn } from 'loka';
+import { EventCard, EventCardSkeleton } from './components/EventCard';
 import { gsap } from 'gsap';
 import { HeroCinematicCarousel } from './HeroCinematicCarousel';
 import {
@@ -42,104 +42,8 @@ export const LandingPage = () => {
     marqueeTweenRef,
   } = useLandingPage();
 
-  const EventCard = ({ event, large = false }: { event: Event; large?: boolean }) => (
-    <div
-      data-event-card
-      onClick={() => navigate(`/events/${event.slug}`)}
-      className={styles.eventCard}
-    >
-      <div
-        className="relative overflow-hidden shrink-0"
-        style={{ aspectRatio: large ? '16/9' : '16/10' }}
-      >
-        <img
-          data-card-img
-          src={event.hero_image_url}
-          alt={event.title}
-          className={styles.eventCardImg}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-40% to-black/70" />
-        <Badge
-          className="absolute top-4 left-4"
-          variant={
-            event.status === 'sold_out'
-              ? 'destructive'
-              : event.status === 'selling_fast'
-                ? 'success'
-                : 'default'
-          }
-        >
-          {event.status.replace(/_/g, ' ').toUpperCase()}
-        </Badge>
-        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-          <p className="text-white/90 text-[13px] font-medium">{formatDate(event.date)}</p>
-          <div className="bg-white/12 backdrop-blur-md rounded-lg py-1 px-3.5 border border-white/15">
-            <span className="text-white text-[13px] font-bold">{formatPrice(event.min_price)}</span>
-          </div>
-        </div>
-      </div>
-      <div className="p-[18px_22px_22px] flex flex-col grow">
-        <h3
-          className={`font-bold tracking-[-0.02em] mb-2 text-[#0a0a0a] line-clamp-2 ${large ? 'text-[22px] min-h-[54px]' : 'text-lg min-h-[44px]'}`}
-        >
-          {event.title}
-        </h3>
-        <div className="flex items-center gap-1.5 text-[#888] text-[13px] mb-3">
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="shrink-0"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-            {event.venue_name} · {event.location}
-          </span>
-        </div>
-        {large && (
-          <p className="text-[14px] text-[#666] mb-4 leading-relaxed line-clamp-2 min-h-[44px]">
-            {event.description}
-          </p>
-        )}
-
-        <div className="grow" />
-
-        <div className="flex justify-between items-center pt-3.5 border-t border-[#f0f0f0]">
-          <span
-            className={`text-[13px] font-semibold tracking-[0.02em] ${event.status === 'sold_out' ? 'text-[#ccc]' : 'text-[#007CFF]'}`}
-          >
-            {event.status === 'sold_out' ? 'SOLD OUT' : 'VIEW DETAILS →'}
-          </span>
-          <div
-            className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-115 ${event.status === 'sold_out' ? 'bg-[#f5f5f5]' : 'bg-[#007CFF] group-hover:shadow-[0_4px_16px_rgba(0,124,255,0.4)]'}`}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={event.status === 'sold_out' ? '#ccc' : 'white'}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
-    <div className="bg-[#fafafa] min-h-screen font-['Inter',sans-serif] relative overflow-x-hidden">
+    <div className="bg-neutral-0 min-h-screen font-sans relative overflow-x-hidden">
       <div
         className="fixed inset-0 w-screen h-screen pointer-events-none z-[9999] opacity-[0.03]"
         style={{
@@ -187,15 +91,15 @@ export const LandingPage = () => {
         <div ref={flashDealsRef}>
           <div className="flex-col-mobile flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em] leading-[1.1]">
+              <Typography variant="h2">
                 Flash{' '}
                 <span className="bg-gradient-to-br from-red-500 to-orange-500 bg-clip-text text-transparent">
                   Deals
                 </span>
-              </h2>
-              <p className="text-base text-[#888] mt-3 max-w-[420px]">
+              </Typography>
+              <Typography variant="body" muted className="mt-3 max-w-[420px]">
                 Limited-time offers ending soon. Don't wait!
-              </p>
+              </Typography>
             </div>
             <div className="flex items-center gap-2 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl py-2.5 px-5 mt-4 sm:mt-0">
               <span className="text-[13px] font-bold text-white tracking-[0.05em]">ENDS IN</span>
@@ -211,15 +115,9 @@ export const LandingPage = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
             {isLoading
-              ? Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="flex flex-col gap-3">
-                    <Skeleton className="rounded-2xl h-[240px] w-full" />
-                    <Skeleton className="h-5 w-[60%]" />
-                    <Skeleton className="h-3.5 w-[40%]" />
-                  </div>
-                ))
+              ? Array.from({ length: 4 }).map((_, i) => <EventCardSkeleton key={i} />)
               : flashDealEvents.map((event) => <EventCard key={event.id} event={event} />)}
           </div>
         </div>
@@ -229,24 +127,20 @@ export const LandingPage = () => {
         <div ref={trendingRef}>
           <div className="flex-col-mobile flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em] leading-[1.1]">
-                Don't Miss <span className="text-[#007CFF]">Out</span>
-              </h2>
-              <p className="text-base text-[#888] mt-3 max-w-[420px]">
+              <Typography variant="h2">
+                Don't Miss <span className="text-primary">Out</span>
+              </Typography>
+              <Typography variant="body" muted className="mt-3 max-w-[420px]">
                 Events selling fast right now. Secure your spot before it's too late.
-              </p>
+              </Typography>
             </div>
-            <button className={styles.btnOutline} onClick={() => navigate('/explore')}>View All →</button>
+            <Button variant="pill-outline" size="sm" onClick={() => navigate('/explore')}>
+              View All →
+            </Button>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
             {isLoading
-              ? Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="flex flex-col gap-3">
-                    <Skeleton className="rounded-2xl h-[240px] w-full" />
-                    <Skeleton className="h-5 w-[60%]" />
-                    <Skeleton className="h-3.5 w-[40%]" />
-                  </div>
-                ))
+              ? Array.from({ length: 3 }).map((_, i) => <EventCardSkeleton key={i} />)
               : trendingEvents.map((event) => <EventCard key={event.id} event={event} />)}
           </div>
         </div>
@@ -255,28 +149,26 @@ export const LandingPage = () => {
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto">
         <div ref={nearYouRef}>
           <div className="mb-12">
-            <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em]">
-              Near <span className="text-[#007CFF]">You</span>
-            </h2>
+            <Typography variant="h2">
+              Near <span className="text-primary">You</span>
+            </Typography>
             <div className="flex-col-mobile flex items-center gap-4 mt-3">
-              <p className="text-base text-[#888] flex items-start gap-2 m-0">
+              <Typography variant="body" muted className="flex items-start gap-2 m-0">
                 <span className="inline-flex w-2 h-2 rounded-full bg-[#10B981] animate-pulse mt-1.5 shrink-0" />
                 <span className="leading-[1.4]">Showing events in Jakarta & surrounding areas</span>
-              </p>
-              <span className="text-[#007CFF] text-sm font-semibold cursor-pointer">
+              </Typography>
+              <Typography
+                as="span"
+                variant="bodySm"
+                className="text-primary font-semibold cursor-pointer"
+              >
                 Change Location
-              </span>
+              </Typography>
             </div>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
             {isLoading
-              ? Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="flex flex-col gap-3">
-                    <Skeleton className="rounded-2xl h-[240px] w-full" />
-                    <Skeleton className="h-5 w-[60%]" />
-                    <Skeleton className="h-3.5 w-[40%]" />
-                  </div>
-                ))
+              ? Array.from({ length: 3 }).map((_, i) => <EventCardSkeleton key={i} />)
               : nearYouEvents.map((event) => <EventCard key={event.id} event={event} />)}
           </div>
         </div>
@@ -284,60 +176,64 @@ export const LandingPage = () => {
 
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto relative">
         <div ref={categoriesRef}>
-            <div className="mb-12">
-              <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em]">
-                Explore <span className="text-[#007CFF]">Experiences</span>
-              </h2>
-              <p className="text-base text-[#888] mt-3">Hover to explore categories.</p>
-            </div>
-
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3.5">
-              {categories.map((cat) => (
-                <div
-                  key={cat.name}
-                  data-cat-card
-                  className={`${styles.categoryCard} cursor-pointer`}
-                  onClick={() => navigate(`/explore?category=${cat.name}`)}
-                  style={{
-                    background: cat.bg,
-                    borderColor: `${cat.color}15`,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = `0 24px 48px ${cat.color}25`;
-                    e.currentTarget.style.borderColor = cat.color + '40';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.02)';
-                    e.currentTarget.style.borderColor = cat.color + '15';
-                  }}
-                >
-                  <div
-                    className="mb-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] inline-flex group-hover:scale-120 group-hover:-rotate-8"
-                    style={{ color: cat.color }}
-                    dangerouslySetInnerHTML={{ __html: cat.icon_svg }}
-                  />
-                  <div className="text-[15px] font-extrabold text-[#0a0a0a] mb-1">{cat.name}</div>
-                  <div className="text-[13px] font-bold opacity-80" style={{ color: cat.color }}>
-                    {cat.count} events
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="mb-12">
+            <Typography variant="h2">
+              Explore <span className="text-primary">Experiences</span>
+            </Typography>
+            <Typography variant="body" muted className="mt-3">
+              Hover to explore categories.
+            </Typography>
           </div>
-        </section>
+
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3.5">
+            {categories.map((cat) => (
+              <div
+                key={cat.name}
+                data-cat-card
+                className={`${styles.categoryCard} cursor-pointer`}
+                onClick={() => navigate(`/explore?category=${cat.name}`)}
+                style={{
+                  background: cat.bg,
+                  borderColor: `${cat.color}15`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 24px 48px ${cat.color}25`;
+                  e.currentTarget.style.borderColor = cat.color + '40';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.02)';
+                  e.currentTarget.style.borderColor = cat.color + '15';
+                }}
+              >
+                <div
+                  className="mb-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] inline-flex group-hover:scale-120 group-hover:-rotate-8"
+                  style={{ color: cat.color }}
+                  dangerouslySetInnerHTML={{ __html: cat.icon_svg }}
+                />
+                <div className="text-[15px] font-extrabold text-[#0a0a0a] mb-1">{cat.name}</div>
+                <div className="text-[13px] font-bold opacity-80" style={{ color: cat.color }}>
+                  {cat.count} events
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto">
         <div>
           <div className="flex-col-mobile flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em]">
-                Explore Top <span className="text-[#007CFF]">Venues</span>
-              </h2>
-              <p className="text-base text-[#888] mt-3">
+              <Typography variant="h2">
+                Explore Top <span className="text-primary">Venues</span>
+              </Typography>
+              <Typography variant="body" muted className="mt-3">
                 Experience world-class events in iconic locations.
-              </p>
+              </Typography>
             </div>
-            <button className={styles.btnOutline} onClick={() => navigate('/explore')}>All Venues →</button>
+            <Button variant="pill-outline" size="sm" onClick={() => navigate('/explore')}>
+              All Venues →
+            </Button>
           </div>
           <div className="grid grid-cols-12 gap-5">
             {venues.map((venue, i) => {
@@ -401,19 +297,19 @@ export const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 from-0% via-[#0a0a0a]/40 via-50% to-transparent to-100%" />
           </div>
           <div className="absolute inset-y-0 left-0 flex flex-col justify-center p-[60px_70px] max-w-[580px] z-10">
-            <h2 className="text-[clamp(30px,4.5vw,52px)] font-black text-white tracking-[-0.04em] leading-[1.05] mb-[18px]">
+            <Typography variant="h1" className="text-white mb-[18px]">
               {spotlightEvent.title}
-            </h2>
-            <p className="text-base text-white/55 leading-[1.7] mb-6">
+            </Typography>
+            <Typography variant="body" className="text-white/55 leading-[1.7] mb-6">
               {spotlightEvent.description}
-            </p>
+            </Typography>
             <div className="flex items-center gap-5 mb-8">
               <span className="text-white/45 text-sm">📅 {formatDate(spotlightEvent.date)}</span>
               <span className="text-white/45 text-sm">📍 {spotlightEvent.location}</span>
             </div>
-            <button className={styles.btnPrimary}>
+            <Button variant="primary" size="lg" className="rounded-xl shadow-primary-lg">
               Get Tickets — {formatPrice(spotlightEvent.min_price)}
-            </button>
+            </Button>
           </div>
         </section>
       )}
@@ -422,25 +318,25 @@ export const LandingPage = () => {
         <div ref={upcomingRef}>
           <div className="flex-col-mobile flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em]">
-                Upcoming <span className="text-[#007CFF]">Events</span>
-              </h2>
-              <p className="text-base text-[#888] mt-3 max-w-[420px]">
+              <Typography variant="h2">
+                Upcoming <span className="text-primary">Events</span>
+              </Typography>
+              <Typography variant="body" muted className="mt-3 max-w-[420px]">
                 Fresh events just added. Be the first to book.
-              </p>
+              </Typography>
             </div>
-            <button onClick={() => navigate('/explore')} className="py-2.5 px-6 rounded-full bg-transparent text-[#007CFF] font-semibold text-[13px] border-[1.5px] border-[#007CFF] cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-[0.02em] hover:bg-[#007CFF] hover:text-white hover:scale-105 mt-4 sm:mt-0">
+            <Button
+              variant="pill-outline"
+              size="sm"
+              onClick={() => navigate('/explore')}
+              className="mt-4 sm:mt-0"
+            >
               View All →
-            </button>
+            </Button>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-7">
             {isLoading
-              ? Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="flex flex-col gap-3">
-                    <Skeleton className="rounded-2xl h-[240px] w-full" />
-                    <Skeleton className="h-5 w-[60%]" />
-                  </div>
-                ))
+              ? Array.from({ length: 4 }).map((_, i) => <EventCardSkeleton key={i} large />)
               : upcomingEvents.map((event) => <EventCard key={event.id} event={event} large />)}
           </div>
         </div>
@@ -449,10 +345,12 @@ export const LandingPage = () => {
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto">
         <div ref={reviewsRef}>
           <div className="mb-12">
-            <h2 className="text-[clamp(28px,4vw,44px)] font-extrabold tracking-[-0.03em]">
-              What People <span className="text-[#007CFF]">Say</span>
-            </h2>
-            <p className="text-base text-[#888] mt-3">Real reviews from real ticket holders.</p>
+            <Typography variant="h2">
+              What People <span className="text-primary">Say</span>
+            </Typography>
+            <Typography variant="body" muted className="mt-3">
+              Real reviews from real ticket holders.
+            </Typography>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5">
             {reviews.map((review, i) => (
@@ -509,9 +407,9 @@ export const LandingPage = () => {
 
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto">
         <div className="text-center mb-10">
-          <p className="text-[13px] font-semibold text-[#aaa] tracking-[0.15em] uppercase">
+          <Typography variant="overline" className="text-neutral-300">
             Trusted by leading brands
-          </p>
+          </Typography>
         </div>
         <div ref={partnersRef} className="overflow-hidden py-5">
           <div
@@ -574,14 +472,14 @@ export const LandingPage = () => {
         />
 
         <div className="relative z-10 max-w-[560px]">
-          <h2 className="text-[clamp(30px,4.5vw,52px)] font-black text-white tracking-[-0.04em] leading-[1.05] mb-[18px]">
+          <Typography variant="h1" className="text-white mb-[18px]">
             Never miss
             <br />
             <span className="opacity-60">a moment.</span>
-          </h2>
-          <p className="text-white/80 text-base mb-9 leading-[1.7] font-medium">
+          </Typography>
+          <Typography variant="body" className="text-white/80 mb-9 leading-[1.7] font-medium">
             Get personalized event recommendations and early access to exclusive ticket drops.
-          </p>
+          </Typography>
           <div className="flex-col-mobile w-full flex gap-3">
             <input
               type="email"
