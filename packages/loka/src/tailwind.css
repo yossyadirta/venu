@@ -63,7 +63,7 @@
     justify-content: center !important;
   }
 
-  .hero-thumbnails>div {
+  .hero-thumbnails > div {
     width: 32px !important;
     height: 4px !important;
     flex-shrink: 0 !important;
@@ -73,7 +73,7 @@
     display: none !important;
   }
 
-  .flex-col-mobile.w-full>button {
+  .flex-col-mobile.w-full > button {
     width: 100% !important;
   }
 
@@ -91,13 +91,13 @@
     border-bottom: none !important;
   }
 
-  section[ref="statsRef"] {
+  section[ref='statsRef'] {
     flex-direction: column !important;
     padding: 40px 24px !important;
   }
 
-  .flex-col-mobile.w-full>button,
-  .flex-col-mobile.w-full>input {
+  .flex-col-mobile.w-full > button,
+  .flex-col-mobile.w-full > input {
     width: 100% !important;
   }
 
