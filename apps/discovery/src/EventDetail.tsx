@@ -473,7 +473,7 @@ export const EventDetail = () => {
           >
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          Back to Events
+          Back
         </button>
         <div className="pt-[140px] lg:pt-[160px] px-0 lg:px-0">
           <HeroModern event={event} />
