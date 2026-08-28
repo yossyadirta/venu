@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
+import 'loka/src/tailwind.css';
 import { GlobalNavbar } from './GlobalNavbar';
 import { GlobalFooter } from './GlobalFooter';
-
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 // @ts-ignore
 const DiscoveryApp = React.lazy(() => import('discovery/App'));
@@ -12,6 +12,9 @@ const TicketingApp = React.lazy(() => import('ticketing/App'));
 const CheckoutApp = React.lazy(() => import('checkout/App'));
 
 const App = () => {
+  const location = useLocation();
+  const isImmersiveRoute = location.pathname.startsWith('/checkout') || location.pathname.startsWith('/tickets');
+
   return (
     <div className="flex flex-col min-h-screen">
       <GlobalNavbar />
@@ -30,7 +33,7 @@ const App = () => {
           </Routes>
         </Suspense>
       </main>
-      <GlobalFooter />
+      {!isImmersiveRoute && <GlobalFooter />}
     </div>
   );
 };

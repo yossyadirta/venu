@@ -1,10 +1,14 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { TicketingFlow } from './TicketingFlow';
+import { NotFound } from './NotFound';
 
 const App = () => {
   return (
-    <div>
-      <h2>Venu Ticketing Remote App</h2>
-    </div>
+    <Routes>
+      <Route path="/:slug" element={<TicketingFlow />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

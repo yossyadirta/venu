@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { CheckoutFlow } from './CheckoutFlow';
+import { NotFound } from './NotFound';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
@@ -10,6 +11,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/:slug" element={<CheckoutFlow />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </QueryClientProvider>
   );
