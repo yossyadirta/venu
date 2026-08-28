@@ -13,6 +13,8 @@ export const GlobalNavbar = () => {
   const [searchDate, setSearchDate] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const isSearchActive = searchQuery.trim().length > 0 || searchDate.length > 0;
 
   const navRef = useRef<HTMLElement>(null);
@@ -28,13 +30,13 @@ export const GlobalNavbar = () => {
     gsap.fromTo(
       navRef.current,
       { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, delay: 0.3, ease: 'power3.out' }
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
     );
   }, []);
 
   const searchBarStyle = (solid: boolean) =>
     cn(
-      'desktop-only flex items-center gap-0 rounded-full px-1 py-1 flex-1 max-w-[520px]',
+      'hidden lg:flex items-center gap-0 rounded-full px-1 py-1 flex-1 max-w-[520px]',
       'transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]',
       solid ? 'bg-[#f5f5f5] border border-[#e5e5e5]' : 'bg-white/12 backdrop-blur-[20px] border border-white/20'
     );
@@ -56,8 +58,8 @@ export const GlobalNavbar = () => {
           'fixed top-0 left-0 right-0 z-[1000] flex justify-between items-center px-10',
           'transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
           navSolid
-            ? 'py-2.5 bg-white/95 backdrop-blur-3xl backdrop-saturate-[1.8] border-b border-black/5'
-            : 'py-4 bg-gradient-to-b from-black/60 to-transparent'
+            ? 'py-2.5 bg-white/95 backdrop-blur-3xl backdrop-saturate-[1.8] shadow-[0_1px_0_rgba(0,0,0,0.06)]'
+            : 'py-4 bg-gradient-to-b from-black/60 to-transparent shadow-none'
         )}
       >
         <div
@@ -102,6 +104,11 @@ export const GlobalNavbar = () => {
               placeholder="Events, artists, cities..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && searchQuery.trim()) {
+                  navigate(`/explore?q=${searchQuery}`);
+                }
+              }}
               className={searchInputStyle(navSolid)}
             />
           </div>
@@ -166,6 +173,9 @@ export const GlobalNavbar = () => {
             )}
           </div>
           <button
+            onClick={() => {
+              if (searchQuery.trim()) navigate(`/explore?q=${searchQuery}`);
+            }}
             className={cn(
               'w-9 h-9 rounded-full border-none flex items-center justify-center cursor-pointer transition-all duration-300 shrink-0',
               isSearchActive
@@ -191,18 +201,54 @@ export const GlobalNavbar = () => {
           </button>
         </div>
 
-        <div className="desktop-only flex items-center gap-6 shrink-0">
-          {['Explore', 'Categories'].map((item) => (
+        <div className="hidden lg:flex items-center gap-6 shrink-0">
+          <span
+            className={cn(
+              'text-[13px] font-medium cursor-pointer transition-colors duration-300 tracking-[0.01em]',
+              navSolid ? 'text-[#555] hover:text-[#007CFF]' : 'text-white/75 hover:text-[#007CFF]'
+            )}
+            onClick={() => navigate('/explore')}
+          >
+            Explore
+          </span>
+          <div 
+            className="relative py-2"
+            onMouseEnter={() => setIsCategoriesOpen(true)}
+            onMouseLeave={() => setIsCategoriesOpen(false)}
+          >
             <span
-              key={item}
               className={cn(
-                'text-[13px] font-medium cursor-pointer transition-colors duration-300 tracking-[0.01em]',
+                'text-[13px] font-medium cursor-pointer transition-colors duration-300 tracking-[0.01em] flex items-center gap-1',
                 navSolid ? 'text-[#555] hover:text-[#007CFF]' : 'text-white/75 hover:text-[#007CFF]'
               )}
             >
-              {item}
+              Categories
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </span>
-          ))}
+            <div 
+              className="absolute top-full left-1/2 mt-1 w-[160px] bg-white rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-[#f0f0f0] flex flex-col py-2 z-50 overflow-hidden"
+              style={{
+                transform: `translateX(-50%) ${isCategoriesOpen ? 'translateY(0)' : 'translateY(8px)'}`,
+                opacity: isCategoriesOpen ? 1 : 0,
+                visibility: isCategoriesOpen ? 'visible' : 'hidden',
+                pointerEvents: isCategoriesOpen ? 'auto' : 'none',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+            >
+              {['Music', 'Sports', 'Arts & Theatre', 'Comedy', 'Family', 'Festivals'].map(cat => (
+                <div 
+                  key={cat}
+                  onClick={() => {
+                    setIsCategoriesOpen(false);
+                    navigate(`/explore?category=${cat}`);
+                  }}
+                  className="px-5 py-2.5 text-[13px] font-semibold text-[#555] hover:text-[#0a0a0a] hover:bg-[#f5f5f5] cursor-pointer transition-colors"
+                >
+                  {cat}
+                </div>
+              ))}
+            </div>
+          </div>
           <button
             className={cn(
               'rounded-full font-semibold px-5 py-2 text-[13px] cursor-pointer transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-105',
@@ -216,7 +262,7 @@ export const GlobalNavbar = () => {
         </div>
 
         <div
-          className={`mobile-only flex items-center cursor-pointer ${navSolid ? 'text-[#0a0a0a]' : 'text-white'}`}
+          className={`flex lg:hidden items-center cursor-pointer ${navSolid ? 'text-[#0a0a0a]' : 'text-white'}`}
           onClick={() => setMobileMenuOpen(true)}
         >
           <svg
@@ -260,14 +306,45 @@ export const GlobalNavbar = () => {
             <span
               className="text-white text-2xl font-semibold cursor-pointer"
               onClick={() => {
-                navigate('/');
+                navigate('/explore');
                 setMobileMenuOpen(false);
               }}
             >
               Explore
             </span>
-            <span className="text-white text-2xl font-semibold cursor-pointer">Categories</span>
-            <span className="text-[#007CFF] text-2xl font-semibold cursor-pointer">Sign In</span>
+            <div className="flex flex-col items-center gap-4">
+              <span 
+                className="text-white text-2xl font-semibold cursor-pointer flex items-center gap-2"
+                onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+              >
+                Categories
+                <svg 
+                  width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: mobileCategoriesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+              <div 
+                className="flex flex-col items-center gap-3 overflow-hidden transition-all duration-300"
+                style={{ maxHeight: mobileCategoriesOpen ? '500px' : '0px', opacity: mobileCategoriesOpen ? 1 : 0 }}
+              >
+                {['Music', 'Sports', 'Arts & Theatre', 'Comedy', 'Family', 'Festivals'].map(cat => (
+                  <span 
+                    key={cat}
+                    onClick={() => {
+                      setMobileCategoriesOpen(false);
+                      setMobileMenuOpen(false);
+                      navigate(`/explore?category=${cat}`);
+                    }}
+                    className="text-white/80 text-xl font-medium cursor-pointer hover:text-white transition-colors"
+                  >
+                    {cat}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <span className="text-[#007CFF] text-2xl font-semibold cursor-pointer mt-4">Sign In</span>
           </div>
         </div>
       )}
