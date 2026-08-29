@@ -1,15 +1,28 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import 'loka/src/tailwind.css';
 import { GlobalNavbar } from './GlobalNavbar';
 import { GlobalFooter } from './GlobalFooter';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Auth } from './pages/Auth';
+import { MyTickets } from './pages/MyTickets';
 
 // @ts-ignore
 const DiscoveryApp = React.lazy(() => import('discovery/App'));
 // @ts-ignore
 const TicketingApp = React.lazy(() => import('ticketing/App'));
 // @ts-ignore
+// @ts-ignore
 const CheckoutApp = React.lazy(() => import('checkout/App'));
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 const App = () => {
   const location = useLocation();
@@ -17,6 +30,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <GlobalNavbar />
       <main className="flex-grow">
         <Suspense
@@ -30,6 +44,8 @@ const App = () => {
             <Route path="/*" element={<DiscoveryApp />} />
             <Route path="/tickets/*" element={<TicketingApp />} />
             <Route path="/checkout/*" element={<CheckoutApp />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/my-tickets" element={<MyTickets />} />
           </Routes>
         </Suspense>
       </main>
