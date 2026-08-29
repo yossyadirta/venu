@@ -33,6 +33,7 @@ export const LandingPage = () => {
     trendingRef,
     nearYouRef,
     categoriesRef,
+    venuesRef,
     spotlightRef,
     upcomingRef,
     reviewsRef,
@@ -221,7 +222,7 @@ export const LandingPage = () => {
       </section>
 
       <section className="px-6 pb-[100px] max-w-[1280px] mx-auto">
-        <div>
+        <div ref={venuesRef}>
           <div className="flex-col-mobile flex justify-between items-end mb-12">
             <div>
               <Typography variant="h2">

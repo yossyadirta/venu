@@ -14,6 +14,7 @@ export const useLandingPage = () => {
   const trendingRef = useRef<HTMLDivElement>(null);
   const nearYouRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
+  const venuesRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLElement>(null);
   const upcomingRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
@@ -76,6 +77,7 @@ export const useLandingPage = () => {
         trendingRef,
         nearYouRef,
         upcomingRef,
+        venuesRef,
         reviewsRef,
         statsRef,
         ctaRef,
@@ -126,20 +128,36 @@ export const useLandingPage = () => {
   useEffect(() => {
     if (!events) return;
 
-    const allCards = document.querySelectorAll('[data-event-card]');
-    allCards.forEach((card) => {
-      gsap.fromTo(
-        card,
-        { y: 80, opacity: 0, rotateX: 4 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' },
-        }
-      );
+    const cardSections = [
+      flashDealsRef,
+      trendingRef,
+      nearYouRef,
+      upcomingRef,
+    ];
+    
+    cardSections.forEach((sectionRef) => {
+      if (!sectionRef.current) return;
+      const cards = sectionRef.current.querySelectorAll('[data-event-card]');
+      if (cards.length > 0) {
+        gsap.fromTo(
+          cards,
+          { y: 80, opacity: 0, rotateX: 4 },
+          {
+            y: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 0.9,
+            stagger: 0.15,
+            delay: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: { 
+              trigger: sectionRef.current, 
+              start: 'top 85%', 
+              toggleActions: 'play none none none' 
+            },
+          }
+        );
+      }
     });
 
     if (categoriesRef.current) {
@@ -156,6 +174,27 @@ export const useLandingPage = () => {
           ease: 'back.out(1.7)',
           scrollTrigger: {
             trigger: categoriesRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+
+    if (venuesRef.current) {
+      const venueCards = document.querySelectorAll('[data-venue-card]');
+      gsap.fromTo(
+        venueCards,
+        { y: 60, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: venuesRef.current,
             start: 'top 85%',
             toggleActions: 'play none none none',
           },
@@ -219,6 +258,7 @@ export const useLandingPage = () => {
     trendingRef,
     nearYouRef,
     categoriesRef,
+    venuesRef,
     spotlightRef,
     upcomingRef,
     reviewsRef,

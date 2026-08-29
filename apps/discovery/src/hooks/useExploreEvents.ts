@@ -9,6 +9,7 @@ export const useExploreEvents = () => {
   const q = searchParams.get('q') || '';
   const category = searchParams.get('category') || 'All';
   const location = searchParams.get('location') || 'All Locations';
+  const date = searchParams.get('date') || '';
 
   const [localQ, setLocalQ] = useState(q);
   const [sortBy, setSortBy] = useState<'date' | 'price'>('date');
@@ -19,8 +20,8 @@ export const useExploreEvents = () => {
   }, [q]);
 
   const { data: events, isLoading } = useQuery({
-    queryKey: ['explore-events', q, category, location],
-    queryFn: () => dbClient.events.search(q, category, location),
+    queryKey: ['explore-events', q, category, location, date],
+    queryFn: () => dbClient.events.search(q, category, location, date),
   });
 
   const sortedEvents = useMemo(() => {
@@ -32,7 +33,7 @@ export const useExploreEvents = () => {
     return copy.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [events, sortBy]);
 
-  const isFiltering = q.trim() !== '' || category !== 'All' || location !== 'All Locations';
+  const isFiltering = q.trim() !== '' || category !== 'All' || location !== 'All Locations' || date !== '';
 
   const updateParams = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -58,6 +59,7 @@ export const useExploreEvents = () => {
     q,
     category,
     location,
+    date,
     localQ,
     setLocalQ,
     sortBy,

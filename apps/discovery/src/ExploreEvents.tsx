@@ -27,6 +27,7 @@ export const ExploreEvents = () => {
     updateParams,
     handleSearchSubmit,
     clearFilters,
+    date,
   } = useExploreEvents();
 
   const locationOptions = EXPLORE_LOCATIONS.map((loc) => ({ value: loc, label: loc }));
@@ -64,6 +65,26 @@ export const ExploreEvents = () => {
                 WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
               }}
             >
+              <div className="mb-10">
+                <Typography variant="overline" className="mb-4 block">Timeframe</Typography>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { label: 'Anytime', value: '' },
+                    { label: 'This Weekend', value: 'this_weekend' },
+                    { label: 'This Month', value: 'this_month' }
+                  ].map((tf) => (
+                    <FilterChip
+                      key={tf.value}
+                      label={tf.label}
+                      active={(date || '') === tf.value || (date === 'anytime' && tf.value === '')}
+                      onClick={() => updateParams('date', tf.value)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <Separator className="mb-8" />
+
               <div className="mb-10">
               <Typography variant="overline" className="mb-4 block">Location</Typography>
               <RadioGroup

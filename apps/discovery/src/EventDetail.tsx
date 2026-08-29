@@ -414,7 +414,7 @@ const TicketPanel = ({ event, onGetTickets }: { event: any; onGetTickets: () => 
 };
 
 export const EventDetail = () => {
-  const { event, isLoading, navigate } = useEventDetail();
+  const { event, isLoading, navigate, handleGetTickets } = useEventDetail();
 
   if (isLoading) {
     return (
@@ -485,7 +485,10 @@ export const EventDetail = () => {
         </div>
       </div>
 
-      <TicketPanel event={event} onGetTickets={() => navigate(`/tickets/${event.slug}`)} />
+      <TicketPanel 
+        event={event} 
+        onGetTickets={handleGetTickets} 
+      />
 
       {/* Mobile Sticky Bet Tickets */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-neutral-200 p-4 pb-6 px-6 z-[99] flex justify-between items-end shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
@@ -515,7 +518,7 @@ export const EventDetail = () => {
           size="md"
           variant="primary"
           disabled={event.status === 'sold_out'}
-          onClick={() => navigate(`/tickets/${event.slug}`)}
+          onClick={handleGetTickets}
           className={cn(
             'py-3.5 px-8 rounded-full text-[14px] font-extrabold border-none tracking-[0.05em] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
             event.status === 'sold_out'

@@ -13,6 +13,7 @@ export const EventCard = ({ event, large = false }: { event: Event; large?: bool
       hoverable
       onClick={() => navigate(`/events/${event.slug}`)}
       className="group overflow-hidden flex flex-col h-full"
+      data-event-card
     >
       <div className="relative overflow-hidden shrink-0" style={{ aspectRatio: large ? '16/9' : '16/10' }}>
         <img
@@ -86,7 +87,7 @@ export const EventCard = ({ event, large = false }: { event: Event; large?: bool
 };
 
 export const EventCardSkeleton = ({ large = false }: { large?: boolean }) => (
-  <Card className="flex flex-col h-full overflow-hidden">
+  <Card className="flex flex-col h-full overflow-hidden" data-event-card>
     <Skeleton
       className="w-full shrink-0 rounded-none"
       style={{ aspectRatio: large ? '16/9' : '16/10' }}

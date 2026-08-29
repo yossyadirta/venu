@@ -17,9 +17,20 @@ export const useEventDetail = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  const handleGetTickets = async () => {
+    if (!event) return;
+    const session = await dbClient.auth.getSession();
+    if (session) {
+      navigate(`/tickets/${event.slug}`);
+    } else {
+      window.location.href = `/auth?redirectTo=/tickets/${event.slug}`;
+    }
+  };
+
   return {
     navigate,
     event,
     isLoading,
+    handleGetTickets,
   };
 };
