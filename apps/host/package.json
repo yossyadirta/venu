@@ -17,6 +17,7 @@
   "devDependencies": {
     "config-tailwind": "workspace:*",
     "config-typescript": "workspace:*",
+    "copy-webpack-plugin": "^14.0.0",
     "html-webpack-plugin": "^5.5.3",
     "loka": "workspace:*",
     "ts-loader": "^9.5.1",

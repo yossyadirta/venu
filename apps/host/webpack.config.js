@@ -3,6 +3,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production' || process.env.NODE_ENV === 'production';
@@ -69,6 +70,16 @@ module.exports = (env, argv) => {
       }),
       new HtmlWebpackPlugin({
         template: './public/index.html',
+      }),
+      new CopyPlugin({
+        patterns: [
+          { 
+            from: 'public',
+            globOptions: {
+              ignore: ['**/index.html'],
+            },
+          },
+        ],
       }),
     ],
   };
