@@ -3,11 +3,13 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index',
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   output: {
-    publicPath: 'http://localhost:3001/',
+    publicPath: isProduction ? 'auto' : 'http://localhost:3001/',
   },
   devServer: {
     port: 3001,

@@ -3,9 +3,11 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index',
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   output: {
     publicPath: '/',
   },
@@ -45,9 +47,9 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'host',
       remotes: {
-        discovery: 'discovery@http://localhost:3001/remoteEntry.js',
-        ticketing: 'ticketing@http://localhost:3002/remoteEntry.js',
-        checkout: 'checkout@http://localhost:3003/remoteEntry.js',
+        discovery: `discovery@${process.env.DISCOVERY_URL || 'http://localhost:3001'}/remoteEntry.js`,
+        ticketing: `ticketing@${process.env.TICKETING_URL || 'http://localhost:3002'}/remoteEntry.js`,
+        checkout: `checkout@${process.env.CHECKOUT_URL || 'http://localhost:3003'}/remoteEntry.js`,
       },
       shared: {
         react: { singleton: true, eager: true, requiredVersion: '^18.2.0' },
