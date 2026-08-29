@@ -60,3 +60,15 @@ export interface Partner {
   name: string;
   logo_svg: string;
 }
+
+export interface Booking {
+  id: string;
+  user_id: string;
+  event_id: string;
+  attendee_name: string;
+  attendee_email: string;
+  total_price: number;
+  tickets: Record<string, any>;
+  created_at: string;
+  event?: Event;
+}
