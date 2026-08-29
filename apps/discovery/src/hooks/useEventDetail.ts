@@ -13,9 +13,7 @@ export const useEventDetail = () => {
     enabled: !!slug,
   });
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
+
 
   const handleGetTickets = async () => {
     if (!event) return;

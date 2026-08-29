@@ -16,7 +16,6 @@ export const useExploreEvents = () => {
 
   useEffect(() => {
     setLocalQ(q);
-    window.scrollTo(0, 0);
   }, [q]);
 
   const { data: events, isLoading } = useQuery({

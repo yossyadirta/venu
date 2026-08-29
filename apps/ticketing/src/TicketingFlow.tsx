@@ -29,7 +29,6 @@ export const TicketingFlow = () => {
   });
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (slug) {
       sessionStorage.removeItem(`venu_step_${slug}`);
       sessionStorage.removeItem(`venu_attendee_${slug}`);

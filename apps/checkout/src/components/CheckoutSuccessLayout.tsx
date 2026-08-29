@@ -22,11 +22,6 @@ export const CheckoutSuccessLayout: React.FC<CheckoutSuccessLayoutProps> = ({
 }) => {
   const [isRevealed, setIsRevealed] = useState(false);
 
-  React.useEffect(() => {
-    if (isRevealed) {
-      window.scrollTo(0, 0);
-    }
-  }, [isRevealed]);
 
   if (!isRevealed) {
     return (

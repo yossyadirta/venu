@@ -25,7 +25,6 @@ export const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({
   const itemsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     const tl = gsap.timeline();
 
     if (checkRef.current) {

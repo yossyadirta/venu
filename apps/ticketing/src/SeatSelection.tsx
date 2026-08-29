@@ -58,6 +58,10 @@ export const SeatSelection = ({ event }: { event: any }) => {
     isComplete,
   } = useSeatSelection(event.slug);
 
+  useEffect(() => {
+    // Only check if we have data to proceed
+  }, []);
+
   const { data: tiers } = useQuery({
     queryKey: ['ticket-tiers', event.id],
     queryFn: () => dbClient.tickets.getTiersByEventId(event.id),
