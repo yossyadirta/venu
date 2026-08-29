@@ -3,6 +3,14 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "DISCOVERY_URL",
+        "TICKETING_URL",
+        "CHECKOUT_URL",
+        "NODE_ENV"
+      ],
       "outputs": [".next/**", "dist/**"]
     },
     "lint": {

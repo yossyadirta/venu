@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
+const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -43,7 +44,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new Dotenv({ path: '../../.env', systemvars: true }),
+    new webpack.EnvironmentPlugin({
+      SUPABASE_URL: '',
+      SUPABASE_ANON_KEY: '',
+    }),
+    new Dotenv({ path: '../../.env', systemvars: true, silent: true }),
     new ModuleFederationPlugin({
       name: 'checkout',
       filename: 'remoteEntry.js',
