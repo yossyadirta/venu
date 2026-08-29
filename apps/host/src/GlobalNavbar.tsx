@@ -313,7 +313,7 @@ export const GlobalNavbar = () => {
                 </svg>
               </div>
               <div 
-                className="absolute top-full right-0 mt-1 w-[140px] bg-white rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-[#f0f0f0] flex flex-col py-2 z-50 overflow-hidden"
+                className="absolute top-full right-0 pt-2 z-50"
                 style={{
                   transform: `translateY(${mobileCategoriesOpen ? '0' : '8px'})`,
                   opacity: mobileCategoriesOpen ? 1 : 0,
@@ -322,6 +322,7 @@ export const GlobalNavbar = () => {
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
+                <div className="w-[140px] bg-white rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-[#f0f0f0] flex flex-col py-2 overflow-hidden">
                 <div 
                   onClick={() => {
                     setMobileCategoriesOpen(false);
@@ -331,15 +332,16 @@ export const GlobalNavbar = () => {
                 >
                   My Tickets
                 </div>
-                <div 
-                  onClick={async () => {
-                    await dbClient.auth.signOut();
-                    setUserSession(null);
-                    navigate('/');
-                  }}
-                  className="px-5 py-2.5 text-[13px] font-semibold text-[#555] hover:text-[#0a0a0a] hover:bg-[#f5f5f5] cursor-pointer transition-colors"
-                >
-                  Log Out
+                  <div 
+                    onClick={async () => {
+                      await dbClient.auth.signOut();
+                      setUserSession(null);
+                      navigate('/');
+                    }}
+                    className="px-5 py-2.5 text-[13px] font-semibold text-[#555] hover:text-[#0a0a0a] hover:bg-[#f5f5f5] cursor-pointer transition-colors"
+                  >
+                    Log Out
+                  </div>
                 </div>
               </div>
             </div>
