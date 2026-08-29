@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
         name: 'ticketing',
         filename: 'remoteEntry.js',
         exposes: {
-          './TicketingFlow': './src/TicketingFlow',
+          './App': './src/App',
         },
         shared: {
           react: { singleton: true, eager: true, requiredVersion: '^18.2.0' },

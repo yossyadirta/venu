@@ -54,8 +54,7 @@ module.exports = (env, argv) => {
         name: 'checkout',
         filename: 'remoteEntry.js',
         exposes: {
-          './CheckoutFlow': './src/CheckoutFlow',
-          './PaymentSuccessScreen': './src/components/PaymentSuccessScreen',
+          './App': './src/App',
         },
         shared: {
           react: { singleton: true, eager: true, requiredVersion: '^18.2.0' },
