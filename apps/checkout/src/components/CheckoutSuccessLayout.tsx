@@ -187,13 +187,6 @@ export const CheckoutSuccessLayout: React.FC<CheckoutSuccessLayoutProps> = ({
         </div>
       </div>
 
-      <button
-        onClick={() => (window.location.href = '/')}
-        className="mt-12 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors tracking-wide"
-      >
-        Return to Home
-      </button>
-
       <style
         dangerouslySetInnerHTML={{
           __html: `

@@ -12,6 +12,11 @@ export const AttendeeForm = ({ onSubmit, initialName = '', initialEmail = '' }: 
   const [email, setEmail] = useState(initialEmail);
   const [errors, setErrors] = useState({ name: '', email: '' });
 
+  React.useEffect(() => {
+    if (initialName) setName(initialName);
+    if (initialEmail) setEmail(initialEmail);
+  }, [initialName, initialEmail]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = { name: '', email: '' };

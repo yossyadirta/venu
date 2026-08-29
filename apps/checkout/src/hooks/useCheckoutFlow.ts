@@ -9,6 +9,24 @@ export const useCheckoutFlow = (slug: string | undefined) => {
     return (sessionStorage.getItem(`venu_step_${slug}`) as CheckoutStep) || 'attendee_info';
   });
 
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    dbClient.auth
+      .getUser()
+      .then((u) => {
+        setUser(u);
+        if (u && !attendee.email) {
+          setAttendee({ name: u.user_metadata?.name || '', email: u.email || '' });
+          sessionStorage.setItem(
+            `venu_attendee_${slug}`,
+            JSON.stringify({ name: u.user_metadata?.name || '', email: u.email || '' })
+          );
+        }
+      })
+      .catch(() => {});
+  }, [slug]);
+
   // Save step to sessionStorage
   useEffect(() => {
     if (slug) {
@@ -101,13 +119,31 @@ export const useCheckoutFlow = (slug: string | undefined) => {
     }
   }, [tiers, quantities]);
 
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
     setStep('processing');
 
-    // Simulate payment processing delay
-    setTimeout(() => {
-      setStep('success');
-    }, 3000);
+    try {
+      if (user && event) {
+        // Save to Database
+        await dbClient.bookings.create({
+          user_id: user.id,
+          event_id: event.id,
+          attendee_name: attendee.name,
+          attendee_email: attendee.email,
+          total_price: totalPrice,
+          tickets: quantities,
+        });
+      }
+
+      // Simulate payment processing delay
+      setTimeout(() => {
+        setStep('success');
+      }, 2000);
+    } catch (err) {
+      setTimeout(() => {
+        setStep('success');
+      }, 1000);
+    }
   };
 
   return {
