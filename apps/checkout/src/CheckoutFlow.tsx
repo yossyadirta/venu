@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { CheckoutLayout } from './components/CheckoutLayout';
 import { CheckoutSuccessLayout } from './components/CheckoutSuccessLayout';
@@ -19,6 +19,10 @@ export const CheckoutFlow = () => {
     handleAttendeeSubmit,
     handlePaymentSubmit,
   } = useCheckoutFlow(slug);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
 
   if (eventLoading) {
     return (

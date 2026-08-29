@@ -36,6 +36,10 @@ export const TicketingFlow = () => {
     }
   }, [slug]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [queuePassed, selectionPassed]);
+
   if (isLoading) {
     return (
       <div className="h-screen w-full bg-[#050505] flex items-center justify-center pt-[100px]">

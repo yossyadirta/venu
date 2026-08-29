@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DigitalTicket } from './DigitalTicket';
 import { PaymentSuccessScreen } from './PaymentSuccessScreen';
 import { Typography, Button } from 'loka';
@@ -22,6 +22,9 @@ export const CheckoutSuccessLayout: React.FC<CheckoutSuccessLayoutProps> = ({
 }) => {
   const [isRevealed, setIsRevealed] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [isRevealed]);
 
   if (!isRevealed) {
     return (
