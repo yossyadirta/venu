@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Typography } from 'loka';
 
@@ -27,7 +27,7 @@ export const WaitingRoom = ({ event, onComplete }: { event: any; onComplete: () 
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -104,7 +104,7 @@ export const WaitingRoom = ({ event, onComplete }: { event: any; onComplete: () 
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center flex-grow w-full text-center mt-10">
-        <div ref={infoRef} className="flex flex-col items-center mb-10 lg:mb-12">
+        <div ref={infoRef} className="opacity-0 flex flex-col items-center mb-10 lg:mb-12">
           <Typography variant="overline" className="text-[9px] lg:text-[11px] text-white/40 mb-2">
             {formatDate(event.date)} • {event.venue_name}
           </Typography>
@@ -119,7 +119,7 @@ export const WaitingRoom = ({ event, onComplete }: { event: any; onComplete: () 
 
         <div
           ref={numberRef}
-          className="text-[140px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter font-black text-white mb-8 lg:mb-10 drop-shadow-2xl"
+          className="opacity-0 text-[140px] md:text-[200px] lg:text-[280px] leading-[0.8] tracking-tighter font-black text-white mb-8 lg:mb-10 drop-shadow-2xl"
           style={{
             fontVariantNumeric: 'tabular-nums',
           }}
@@ -127,7 +127,7 @@ export const WaitingRoom = ({ event, onComplete }: { event: any; onComplete: () 
           842
         </div>
 
-        <div ref={statusRef} className="flex items-center gap-3">
+        <div ref={statusRef} className="opacity-0 flex items-center gap-3">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
           <Typography
             variant="label"
