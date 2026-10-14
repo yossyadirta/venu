@@ -1,56 +1,62 @@
-import React, { useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React from 'react';
 import { Typography, Card, Input, Button, FormField } from 'loka';
-import { dbClient } from 'api-client';
+import { useAuthForm } from '../hooks/useAuthForm';
 
 export const Auth = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const redirectTo = searchParams.get('redirectTo') || '/';
+  const {
+    view,
+    switchView,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    name,
+    setName,
+    loading,
+    error,
+    success,
+    handleSubmit,
+  } = useAuthForm();
 
-  const [view, setView] = useState<'login' | 'signup' | 'forgot_password'>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const getTitle = () => {
+    switch (view) {
+      case 'signup':
+        return 'Create Account';
+      case 'forgot_password':
+        return 'Reset Password';
+      case 'update_password':
+        return 'Set New Password';
+      default:
+        return 'Welcome Back';
+    }
+  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    setLoading(true);
+  const getSubtitle = () => {
+    switch (view) {
+      case 'signup':
+        return 'Join Venu to secure your next experience.';
+      case 'forgot_password':
+        return 'Enter your email address and we will send you a link to reset your password.';
+      case 'update_password':
+        return 'Enter and confirm your new password to secure your account.';
+      default:
+        return 'Sign in to access your tickets and reservations.';
+    }
+  };
 
-    try {
-      if (view === 'login') {
-        await dbClient.auth.signInWithPassword(email, password);
-        navigate(redirectTo);
-      } else if (view === 'signup') {
-        if (!name.trim()) {
-          setError('Name is required');
-          setLoading(false);
-          return;
-        }
-        await dbClient.auth.signUp(email, password, name);
-        navigate(redirectTo);
-      } else if (view === 'forgot_password') {
-        try {
-          await dbClient.auth.resetPassword(email);
-          setSuccess('We have sent a password reset link to your email.');
-        } catch (err: any) {
-          if (err.message && err.message.includes('rate limit')) {
-            setError('We are receiving too many requests right now. Please try again in a few minutes.');
-          } else {
-            throw err;
-          }
-        }
-      }
-    } catch (err: any) {
-      setError(err.message || 'An error occurred. Please try again.');
-    } finally {
-      setLoading(false);
+  const getButtonText = () => {
+    if (loading) return 'Processing...';
+    switch (view) {
+      case 'signup':
+        return 'Create Account';
+      case 'forgot_password':
+        return 'Send Reset Link';
+      case 'update_password':
+        return 'Update Password';
+      default:
+        return 'Sign In';
     }
   };
 
@@ -59,10 +65,10 @@ export const Auth = () => {
       <Card className="w-full max-w-md p-8 bg-white border border-[#eaeaea] shadow-[0_20px_40px_rgba(0,0,0,0.04)] rounded-[32px]">
         <div className="text-center mb-8">
           <Typography variant="h2" className="text-3xl font-extrabold tracking-tight mb-2">
-            {view === 'login' ? 'Welcome Back' : view === 'signup' ? 'Create Account' : 'Reset Password'}
+            {getTitle()}
           </Typography>
           <Typography variant="body" className="text-neutral-500">
-            {view === 'login' ? 'Sign in to access your tickets and reservations.' : view === 'signup' ? 'Join Venu to secure your next experience.' : 'Enter your email address and we will send you a link to reset your password.'}
+            {getSubtitle()}
           </Typography>
         </div>
 
@@ -79,19 +85,21 @@ export const Auth = () => {
             </FormField>
           )}
 
-          <FormField label="Email Address">
-            <Input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </FormField>
+          {view !== 'update_password' && (
+            <FormField label="Email Address">
+              <Input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </FormField>
+          )}
 
           {view !== 'forgot_password' && (
             <div className="space-y-2">
-              <FormField label="Password">
+              <FormField label={view === 'update_password' ? 'New Password' : 'Password'}>
                 <Input
                   type="password"
                   placeholder="••••••••"
@@ -100,11 +108,24 @@ export const Auth = () => {
                   required
                 />
               </FormField>
+
+              {view === 'update_password' && (
+                <FormField label="Confirm New Password">
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </FormField>
+              )}
+
               {view === 'login' && (
                 <div className="flex justify-end">
-                  <button 
-                    type="button" 
-                    onClick={() => { setView('forgot_password'); setError(''); setSuccess(''); }}
+                  <button
+                    type="button"
+                    onClick={() => switchView('forgot_password')}
                     className="text-sm text-primary font-semibold hover:underline"
                   >
                     Forgot Password?
@@ -130,24 +151,35 @@ export const Auth = () => {
             </div>
           )}
 
-          <Button 
-            type="submit" 
-            variant="primary" 
-            size="lg" 
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
             className="w-full mt-4 bg-primary"
             disabled={loading}
           >
-            {loading ? 'Processing...' : view === 'login' ? 'Sign In' : view === 'signup' ? 'Create Account' : 'Send Reset Link'}
+            {getButtonText()}
           </Button>
         </form>
 
         <div className="mt-8 text-center flex flex-col gap-2">
-          {view === 'forgot_password' ? (
+          {view === 'update_password' ? (
             <Typography variant="bodySm" className="text-neutral-500">
               Remember your password?{' '}
-              <button 
+              <button
                 type="button"
-                onClick={() => { setView('login'); setError(''); setSuccess(''); }}
+                onClick={() => switchView('login')}
+                className="text-primary font-bold hover:underline"
+              >
+                Sign in
+              </button>
+            </Typography>
+          ) : view === 'forgot_password' ? (
+            <Typography variant="bodySm" className="text-neutral-500">
+              Remember your password?{' '}
+              <button
+                type="button"
+                onClick={() => switchView('login')}
                 className="text-primary font-bold hover:underline"
               >
                 Sign in
@@ -155,10 +187,10 @@ export const Auth = () => {
             </Typography>
           ) : (
             <Typography variant="bodySm" className="text-neutral-500">
-              {view === 'login' ? "Don't have an account? " : "Already have an account? "}
-              <button 
+              {view === 'login' ? "Don't have an account? " : 'Already have an account? '}
+              <button
                 type="button"
-                onClick={() => { setView(view === 'login' ? 'signup' : 'login'); setError(''); setSuccess(''); }}
+                onClick={() => switchView(view === 'login' ? 'signup' : 'login')}
                 className="text-primary font-bold hover:underline"
               >
                 {view === 'login' ? 'Sign up' : 'Sign in'}
