@@ -56,11 +56,13 @@ export const TicketSelection = ({ event, onComplete }: { event: any; onComplete:
   useEffect(() => {
     if (!isLoading && cardsContainerRef.current) {
       const cards = cardsContainerRef.current.querySelectorAll('.tier-card');
-      gsap.fromTo(
-        cards,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(1.2)' }
-      );
+      if (cards.length > 0) {
+        gsap.fromTo(
+          cards,
+          { y: 60, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(1.2)' }
+        );
+      }
     }
   }, [isLoading]);
 

@@ -126,10 +126,12 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
       if (i === index) {
         gsap.set(content, { opacity: 1, pointerEvents: 'auto' });
 
-        gsap.fromTo(words,
-          { yPercent: 100, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'power3.out', delay: 0.3 }
-        );
+        if (words.length > 0) {
+          gsap.fromTo(words,
+            { yPercent: 100, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'power3.out', delay: 0.3 }
+          );
+        }
 
         if (pText) {
           gsap.fromTo(pText,
@@ -138,10 +140,12 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
           );
         }
 
-        gsap.fromTo(metaAndBtns,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', delay: 0.6 }
-        );
+        if (metaAndBtns.length > 0) {
+          gsap.fromTo(metaAndBtns,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', delay: 0.6 }
+          );
+        }
       } else {
         gsap.set(content, { pointerEvents: 'none' });
         gsap.to(content, { opacity: 0, duration: 0.3, ease: 'power2.in' });
@@ -170,8 +174,12 @@ export const HeroCinematicCarousel: React.FC<HeroCinematicCarouselProps> = ({
     const slides = slidesRef.current.querySelectorAll('[data-hero-slide]');
     const contents = contentsRef.current.querySelectorAll('[data-hero-content]');
 
-    gsap.set(slides, { clipPath: 'inset(0% 100% 0% 0%)' });
-    gsap.set(contents, { opacity: 0, pointerEvents: 'none' });
+    if (slides.length > 0) {
+      gsap.set(slides, { clipPath: 'inset(0% 100% 0% 0%)' });
+    }
+    if (contents.length > 0) {
+      gsap.set(contents, { opacity: 0, pointerEvents: 'none' });
+    }
   }, [events.length]);
 
   useEffect(() => {

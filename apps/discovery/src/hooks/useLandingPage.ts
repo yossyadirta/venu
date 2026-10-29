@@ -85,8 +85,9 @@ export const useLandingPage = () => {
       revealSections.forEach((ref) => {
         if (!ref.current) return;
         const children = ref.current.children[0]?.children;
+        const targets = children && children.length > 0 ? children : ref.current;
         gsap.fromTo(
-          children || ref.current,
+          targets,
           { y: 60, opacity: 0 },
           {
             y: 0,
@@ -162,85 +163,93 @@ export const useLandingPage = () => {
 
     if (categoriesRef.current) {
       const catCards = document.querySelectorAll('[data-cat-card]');
-      gsap.fromTo(
-        catCards,
-        { y: 50, opacity: 0, scale: 0.85 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.06,
-          ease: 'back.out(1.7)',
-          scrollTrigger: {
-            trigger: categoriesRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+      if (catCards.length > 0) {
+        gsap.fromTo(
+          catCards,
+          { y: 50, opacity: 0, scale: 0.85 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            stagger: 0.06,
+            ease: 'back.out(1.7)',
+            scrollTrigger: {
+              trigger: categoriesRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
     }
 
     if (venuesRef.current) {
       const venueCards = document.querySelectorAll('[data-venue-card]');
-      gsap.fromTo(
-        venueCards,
-        { y: 60, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: venuesRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+      if (venueCards.length > 0) {
+        gsap.fromTo(
+          venueCards,
+          { y: 60, opacity: 0, scale: 0.95 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: venuesRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
     }
 
     if (statsRef.current) {
       const statEls = document.querySelectorAll('[data-stat]');
-      gsap.fromTo(
-        statEls,
-        { y: 40, opacity: 0, scale: 0.9 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'back.out(1.5)',
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+      if (statEls.length > 0) {
+        gsap.fromTo(
+          statEls,
+          { y: 40, opacity: 0, scale: 0.9 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            stagger: 0.1,
+            ease: 'back.out(1.5)',
+            scrollTrigger: {
+              trigger: statsRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
     }
 
     if (reviewsRef.current) {
       const reviewCards = document.querySelectorAll('[data-review-card]');
-      gsap.fromTo(
-        reviewCards,
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: reviewsRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
+      if (reviewCards.length > 0) {
+        gsap.fromTo(
+          reviewCards,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: reviewsRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
     }
   }, [events]);
 
