@@ -14,5 +14,13 @@
     "@types/node": "^26.2.0",
     "config-typescript": "workspace:*",
     "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
